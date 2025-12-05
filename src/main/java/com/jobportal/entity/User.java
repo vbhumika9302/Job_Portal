@@ -22,7 +22,7 @@ public class User {
 	@Column(nullable=false)
 	private String fullName;
 	
-	private String phone;
+	private String phoneno;
 	
 	@Column(nullable=false)
 	private String role;
