@@ -32,7 +32,7 @@ public class Job {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="posted_by")
-    private User postedBy;
+    private Employee postedBy;
 
     @PrePersist
     public void prePersist() { postedAt = Instant.now(); }

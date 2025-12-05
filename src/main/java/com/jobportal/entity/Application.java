@@ -24,7 +24,7 @@ public class Application {
 
     @ManyToOne(optional=false)
     @JoinColumn(name="applicant_id")
-    private User applicant;
+    private Employee applicant;
 
     @Column(nullable=false)
     private String status; // APPLIED, REVIEWED, REJECTED, HIRED
