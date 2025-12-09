@@ -2,6 +2,7 @@ package com.jobportal.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobportal.entity.Employee;
 import com.jobportal.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -24,29 +28,38 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    @Operation(summary = "Create a new employee", description = "Creates and returns the created employee.")
+    @PostMapping("/v1.0/createEmployee")
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        return ResponseEntity.ok(employeeService.saveEmployee(employee));
     }
 
-    @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    @Operation(summary = "Get employee by id", description = "Provide an employeeId to lookup specific employee")
+    @GetMapping("/v1.0/getEmployeeById/{employeeId}")
+    public ResponseEntity<Employee> getEmployeeById(
+        @Parameter(description = "Id of the employee to be fetched", required = true)
+        @PathVariable Long employeeId) {
+        return ResponseEntity.ok(employeeService.getEmployeeById(employeeId));
     }
 
-    @GetMapping
-    public List<Employee> getEmployees() {
-        return employeeService.getAllEmployees();
+    @Operation(summary = "Get all employees", description = "Returns list of all employees")
+    @GetMapping("/v1.0/getAllEmployees")
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
-    @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    @Operation(summary = "Update employee by id", description = "Updates employee by employeeId and returns updated record")
+    @PutMapping("/v1.0/updateEmployeeById/{employeeId}")
+    public ResponseEntity<Employee> updateEmployeeById(
+        @PathVariable Long employeeId,
+        @RequestBody Employee employee) {
+        return ResponseEntity.ok(employeeService.updateEmployee(employeeId, employee));
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
-        return "Employee Deleted Successfully";
+    @Operation(summary = "Delete employee by id")
+    @DeleteMapping("/v1.0/deleteEmployeeById/{employeeId}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
+        return ResponseEntity.ok("Employee deleted successfully.");
     }
 }
