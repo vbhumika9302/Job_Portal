@@ -5,6 +5,7 @@ import lombok.*;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "applications", uniqueConstraints = {
@@ -15,8 +16,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class Application {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id 
+    private String id;
 
     @ManyToOne(optional=false)
     @JoinColumn(name="job_id")
@@ -31,8 +32,8 @@ public class Application {
 
     private String coverLetter;
 
-    private Instant appliedAt;
+    private LocalDateTime appliedAt;
 
-    @PrePersist
-    public void prePersist() { appliedAt = Instant.now(); }
+//    @PrePersist
+//    public void prePersist() { appliedAt = Instant.now(); }
 }

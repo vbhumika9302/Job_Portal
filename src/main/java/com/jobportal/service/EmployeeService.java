@@ -2,17 +2,25 @@ package com.jobportal.service;
 
 import java.util.List;
 
+import com.jobportal.dto.EmployeeCreateDTO;
+import com.jobportal.dto.LoginRequestDTO;
+import com.jobportal.dto.LoginResponseDTO;
 import com.jobportal.entity.Employee;
 
-public interface EmployeeService  {
+import jakarta.validation.Valid;
 
-	Employee saveEmployee(Employee employee);
+public interface EmployeeService {
 
-    Employee getEmployeeById(Long id);
+    Employee saveEmployee(@Valid EmployeeCreateDTO dto);
+
+    Employee getEmployeeById(String id);
 
     List<Employee> getAllEmployees();
 
-    Employee updateEmployee(Long id, Employee employee);
+    Employee updateEmployee(String id, @Valid EmployeeCreateDTO dto);
 
-    void deleteEmployee(Long id);
+    void deleteEmployee(String id);
+    
+    LoginResponseDTO login(LoginRequestDTO dto);
 }
+

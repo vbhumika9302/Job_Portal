@@ -6,6 +6,7 @@ import lombok.*;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "jobs")
@@ -14,8 +15,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class Job {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id 
+    private String id;
 
     @Column(nullable=false)
     private String title;
@@ -28,12 +29,12 @@ public class Job {
 
     private String employmentType; // FULL_TIME, CONTRACT, etc.
 
-    private Instant postedAt;
+    private LocalDateTime postedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="posted_by")
     private Employee postedBy;
-
-    @PrePersist
-    public void prePersist() { postedAt = Instant.now(); }
+//
+//    @PrePersist
+//    public void prePersist() { postedAt = Instant.now(); }
 }
